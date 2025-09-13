@@ -1,4 +1,6 @@
 PyMuPDF
+torch
+torchvision
+torchaudio
 easyocr
 numpy
-Pillow

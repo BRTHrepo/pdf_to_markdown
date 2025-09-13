@@ -1,4 +1,23 @@
 # Hibrid PDF-ből Markdown átalakító
+## CUDA és GPU támogatás
+
+A PyTorch GPU-támogatást biztosít. A CUDA-kompatibilis verzió telepítéséhez használja az alábbi parancsot:
+
+```bash
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
+
+### NVIDIA kártyák használata CUDA-hoz
+
+Az NVIDIA GPU-k használatához a következő lépéseket kell elvégezni:
+1. Telepítse az NVIDIA illesztőprogramokat a GPU-jához.
+2. Telepítse a CUDA Toolkit-et az NVIDIA hivatalos weboldaláról: [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit).
+3. Telepítse a cuDNN könyvtárat a megfelelő CUDA verzióhoz: [cuDNN](https://developer.nvidia.com/cudnn).
+4. Győződjön meg róla, hogy a telepített CUDA verzió kompatibilis a PyTorch verzióval.
+
+## Modellek letöltése
+
+Az EasyOCR az első futtatáskor automatikusan letölti a szükséges modelleket.
 
 Ez a Python szkript egy fejlett eszköz, amely a PDF dokumentumokat Markdown formátumba alakítja. A szkript a hagyományos szövegextrakciót a beágyazott szöveg kinyeréséhez (a fitz könyvtár segítségével) kombinálja a képekből történő szövegfelismeréssel (OCR - easyocr használatával). Ez a hibrid megközelítés lehetővé teszi, hogy a szkript a beolvasott, kép-alapú PDF-ekben lévő szöveget is feldolgozza, így egy átfogó megoldást nyújt a dokumentumok digitalizálására.
 
@@ -23,10 +42,12 @@ Ez a Python szkript egy fejlett eszköz, amely a PDF dokumentumokat Markdown for
 
 - Python 3.8 vagy újabb
 - Könyvtárak:
-  - fitz
+  - PyMuPDF
+  - torch
+  - torchvision
+  - torchaudio
   - easyocr
   - numpy
-  - PIL (Pillow)
 
 ## Példa kimenet
 
@@ -38,4 +59,3 @@ A generált Markdown fájl tartalmazza:
 ## Licenc és szerzői jogok
 
 - A projektben használt csomagok (fitz, easyocr, numpy, stb.) nyílt forráskódúak, és az adott csomagok saját licencfeltételei érvényesek rájuk.
-- A projekt további felhasználásához és terjesztéséhez kérjük, tartsa be a használt csomagok licencfeltételeit.

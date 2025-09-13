@@ -15,7 +15,7 @@ def slugify(text):
     return text
 
 
-def hybrid_pdf_to_markdown_enhanced_multilingual(pdf_path, output_md_path, confidence_threshold=0.5):
+def hybrid_pdf_to_markdown_enhanced_multilingual(pdf_path, output_md_path, confidence_threshold=0.5, device="cpu", page_callback=None):
     """
     Fejlett hibrid PDF-feldolgozás EasyOCR-rel, pozíció alapú sorrendezéssel,
     redundancia-kezeléssel, tartalomjegyzékkel és OCR-jelöléssel.
@@ -26,7 +26,7 @@ def hybrid_pdf_to_markdown_enhanced_multilingual(pdf_path, output_md_path, confi
         return
 
     # Az EasyOCR olvasó inicializálása több nyelvvel
-    reader = easyocr.Reader(['hu', 'en'])
+    reader = easyocr.Reader(['hu', 'en'], gpu=(device == "cuda"))
 
     doc = fitz.open(pdf_path)
     page_contents = []
@@ -35,6 +35,8 @@ def hybrid_pdf_to_markdown_enhanced_multilingual(pdf_path, output_md_path, confi
     print(f"Feldolgozás alatt: {pdf_path}")
 
     for page_num in range(doc.page_count):
+        if page_callback:
+            page_callback(page_num + 1, doc.page_count)
         print(f"Oldal {page_num + 1} feldolgozása...")
         page = doc.load_page(page_num)
         page_elements = []

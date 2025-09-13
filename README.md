@@ -1,11 +1,29 @@
 # Hibrid PDF-ből Markdown átalakító
 ## CUDA és GPU támogatás
 
-A PyTorch GPU-támogatást biztosít. A CUDA-kompatibilis verzió telepítéséhez használja az alábbi parancsot:
+A PyTorch GPU-támogatást biztosít. A CUDA 12.9 használatához kövesse az alábbi lépéseket. Jelenleg a 12.9-es verzió kompatibilis minden komponenssel, de a jövőben újabb verziók is megjelenhetnek, amelyek szintén támogatottak lehetnek.
 
-```bash
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-```
+1. **CUDA Toolkit telepítése (12.9)**:
+   - Látogasson el az NVIDIA hivatalos [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit) oldalára, és töltse le a 12.9-es verziót.
+
+2. **cuDNN telepítése (CUDA 12.9 kompatibilis)**:
+   - Töltse le a cuDNN-t az NVIDIA [cuDNN](https://developer.nvidia.com/cudnn) oldaláról, és másolja a megfelelő CUDA 12.9 könyvtárba.
+
+3. **PyTorch CUDA 12.9 támogatású verzió telepítése**:
+   - A PyTorch CUDA-kompatibilis verzióját a következő paranccsal telepítheti:
+     ```bash
+     pip install torch torchvision --index-url https://download.pytorch.org/whl/cu129
+     ```
+
+4. **Ellenőrzés**:
+   - A CUDA támogatás ellenőrzéséhez futtassa a következő parancsokat:
+     ```python
+     import torch
+     print(torch.cuda.is_available())
+     print(torch.version.cuda)
+     ```
+
+Ezekkel a lépésekkel biztosítható, hogy a rendszer megfelelően használja a CUDA 12.9 támogatást.
 
 ### NVIDIA kártyák használata CUDA-hoz
 

@@ -1,4 +1,5 @@
 PyMuPDF
+# CUDA támogatású PyTorch és Torchvision
 torch
 torchvision
 torchaudio

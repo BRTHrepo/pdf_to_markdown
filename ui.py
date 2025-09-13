@@ -18,7 +18,7 @@ def select_file():
             messagebox.showerror("Hiba", f"Hiba történt a feldolgozás során: {e}")
 
 # Tkinter ablak létrehozása
-def main():
+def start():
     global stop_processing, root, timer_label
     stop_processing = False
     root = tk.Tk()
@@ -181,5 +181,4 @@ def main():
     # Ablak futtatása
     root.mainloop()
 
-if __name__ == "__main__":
-    main()
+# Az `ui.py` most már kizárólag modulként használható.

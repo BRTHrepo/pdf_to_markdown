@@ -119,8 +119,6 @@ def hybrid_pdf_to_markdown_enhanced_multilingual(pdf_path, output_md_path, confi
         print(f"Hiba történt a fájl írásakor: {e}")
 
 
-# Használati példa
-if __name__ == '__main__':
-    input_pdf = "minta.pdf"  # Cseréld le a saját többnyelvű PDF fájlodra
-    output_markdown = "kinyert_szoveg_fejlett_multilingual.md"
-    hybrid_pdf_to_markdown_enhanced_multilingual(input_pdf, output_markdown)
+# A fájl most már modulként használható, és a következő függvények érhetők el:
+# - hybrid_pdf_to_markdown_enhanced_multilingual
+# - slugify

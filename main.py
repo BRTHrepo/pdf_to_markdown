@@ -1,4 +1,4 @@
-from ui import main
+from ui import start
 
 if __name__ == '__main__':
-    main()
+    start()

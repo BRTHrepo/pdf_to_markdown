@@ -2,16 +2,6 @@
 
 Ez a projekt egy Python-alapú eszköz, amely PDF dokumentumokat alakít át Markdown formátumba. A szkript a hagyományos szövegextrakciót és az OCR technológiát kombinálja, hogy a beágyazott és képalapú szövegeket is feldolgozza.
 
-## Főbb funkciók
-- **Hibrid megközelítés**: Képes kinyerni a beágyazott szöveget és a képeken belül található szöveget is.
-- **Többnyelvű támogatás**: A szkript automatikusan felismeri és feldolgozza a magyar és angol nyelvű szövegeket. Jelenleg csak ez a két nyelv támogatott. A rendszer könnyen bővíthető további nyelvek támogatására az EasyOCR konfigurációjának módosításával, így más nyelvű dokumentumok feldolgozása is lehetővé válik.
-- **Pozíció alapú sorrendezés**: A kinyert szövegblokkokat a PDF-ben elfoglalt pozíciójuk alapján rendezi, ezzel megőrzi a dokumentum eredeti logikai szerkezetét.
-- **Redundancia-kezelés**: Intelligens algoritmusok segítségével kiszűri a duplikált szövegeket, amelyek a hagyományos és az OCR extrakció során is megjelenhetnek.
-- **Tartalomjegyzék generálása**: Létrehoz egy kattintható tartalomjegyzéket a Markdown fájl elején, amely segíti a navigációt az egyes oldalak között.
-- **OCR-jelölés**: A képekből kinyert szövegeket **[OCR]** jelöléssel látja el, így könnyen megkülönböztethető a forrása.
-- **GUI funkciók**: A szkript egy Tkinter-alapú grafikus felületet biztosít, amely lehetővé teszi a PDF fájlok kiválasztását, feldolgozását, és a folyamat megszakítását.
-- **Hardver ellenőrzés**: A GUI ellenőrzi a CUDA és PyTorch elérhetőségét, valamint megjeleníti a verzióinformációkat.
-- **Időzítő és állapotjelzés**: A feldolgozási idő és az oldalak feldolgozásának állapota valós időben követhető.
 
 ## CUDA és GPU támogatás
 
@@ -56,11 +46,14 @@ Ez a Python szkript egy fejlett eszköz, amely a PDF dokumentumokat Markdown for
 ## Főbb funkciók
 
 - **Hibrid megközelítés**: Képes kinyerni a beágyazott szöveget és a képeken belül található szöveget is.
-- **Többnyelvű támogatás**: A szkript automatikusan felismeri és feldolgozza a magyar és angol nyelvű szövegeket.
+- **Többnyelvű támogatás**: A szkript automatikusan felismeri és feldolgozza a magyar és angol nyelvű szövegeket. Jelenleg csak ez a két nyelv támogatott. A rendszer könnyen bővíthető további nyelvek támogatására az EasyOCR konfigurációjának módosításával, így más nyelvű dokumentumok feldolgozása is lehetővé válik.
 - **Pozíció alapú sorrendezés**: A kinyert szövegblokkokat a PDF-ben elfoglalt pozíciójuk alapján rendezi, ezzel megőrzi a dokumentum eredeti logikai szerkezetét.
 - **Redundancia-kezelés**: Intelligens algoritmusok segítségével kiszűri a duplikált szövegeket, amelyek a hagyományos és az OCR extrakció során is megjelenhetnek.
 - **Tartalomjegyzék generálása**: Létrehoz egy kattintható tartalomjegyzéket a Markdown fájl elején, amely segíti a navigációt az egyes oldalak között.
 - **OCR-jelölés**: A képekből kinyert szövegeket **[OCR]** jelöléssel látja el, így könnyen megkülönböztethető a forrása.
+- **GUI funkciók**: A szkript egy Tkinter-alapú grafikus felületet biztosít, amely lehetővé teszi a PDF fájlok kiválasztását, feldolgozását, és a folyamat megszakítását.
+- **Hardver ellenőrzés**: A GUI ellenőrzi a CUDA és PyTorch elérhetőségét, valamint megjeleníti a verzióinformációkat.
+- **Időzítő és állapotjelzés**: A feldolgozási idő és az oldalak feldolgozásának állapota valós időben követhető.
 
 ## Használati útmutató
 

@@ -1,17 +1,20 @@
 """
 Author: BRTHPROG
 """
-
 import tkinter as tk
 from tkinter import filedialog, messagebox
 import os
 import time
 import threading
 from work import hybrid_pdf_to_markdown_enhanced_multilingual
+import torch
 
 def main():
+    stop_processing = False  # Jelző a feldolgozó és a timer szálnak
+    timer_thread = None
+
     def select_file_with_timer():
-        global timer_thread, stop_processing
+        nonlocal stop_processing, timer_thread
 
         stop_processing = False
         file_path = filedialog.askopenfilename(filetypes=[("PDF Files", "*.pdf")])
@@ -20,54 +23,45 @@ def main():
         try:
             start_time = time.time()
 
-            def stop_timer_callback(elapsed_time):
-                timer_label.config(text=f"Feldolgozási idő: {elapsed_time:.2f} másodperc")
-
             def update_timer():
-                def refresh_timer():
-                    if not stop_processing:
-                        elapsed_time = time.time() - start_time
-                        timer_label.config(text=f"Feldolgozási idő: {elapsed_time:.2f} másodperc")
-                        root.after(100, refresh_timer)
-                    elif stop_processing:
-                        elapsed_time = time.time() - start_time
-                        stop_timer_callback(elapsed_time)
-                refresh_timer()
+                while not stop_processing:
+                    elapsed_time = time.time() - start_time
+                    timer_label.config(text=f"Feldolgozási idő: {elapsed_time:.2f} másodperc")
+                    root.update_idletasks()
+                    time.sleep(0.1)
+                # Amikor leáll a timer:
+                elapsed_time = time.time() - start_time
+                timer_label.config(text=f"Feldolgozás vége: {elapsed_time:.2f} másodperc")
+
             timer_thread = threading.Thread(target=update_timer, daemon=True)
             timer_thread.start()
 
-            # Eszköz kiválasztás
             use_cuda = cuda_var.get()
-            device = "cpu"
-            try:
-                import torch
-                if use_cuda and torch.cuda.is_available():
-                    device = "cuda"
-            except ImportError:
-                pass
+            device = "cuda" if use_cuda and torch.cuda.is_available() else "cpu"
 
             def stop_process():
-                global stop_processing
+                nonlocal stop_processing
                 stop_processing = True
                 if timer_thread and timer_thread.is_alive():
                     timer_thread.join(timeout=0)
-                timer_label.config(text="Feldolgozási idő: N/A")
+                timer_label.config(text="Feldolgozás megszakítva")
                 messagebox.showinfo("Megszakítva", "A feldolgozás megszakítva lett.")
             stop_button.config(command=stop_process)
 
             def process_pdf():
-                global stop_processing
-                if stop_processing:
-                    return
+                nonlocal stop_processing
                 try:
                     output_md_path = os.path.splitext(file_path)[0] + ".md"
-                    total_pages = 0
                     current_page = 0
+                    total_pages = 0
+
                     page_label.config(text="Oldalak feldolgozása: 0/0")
-                    root.update()
+                    root.update_idletasks()
+
                     def update_page_label():
                         page_label.config(text=f"Oldalak feldolgozása: {current_page}/{total_pages}")
-                        root.update()
+                        root.update_idletasks()
+
                     def process_page_callback(page, total):
                         nonlocal current_page, total_pages
                         if stop_processing:
@@ -75,25 +69,23 @@ def main():
                         current_page = page
                         total_pages = total
                         update_page_label()
+
                     hybrid_pdf_to_markdown_enhanced_multilingual(
                         file_path, output_md_path, device=device, page_callback=process_page_callback
                     )
-                    if timer_thread and timer_thread.is_alive():
-                        timer_thread.join(timeout=0)
-                    elapsed_time = time.time() - start_time
-                    stop_timer_callback(elapsed_time)
+                    stop_processing = True  # Jelzés, hogy vége van a feldolgozásnak
+
                     messagebox.showinfo("Siker", f"A fájl feldolgozása sikeres!\nMentve: {output_md_path}")
+
                 except Exception as e:
+                    stop_processing = True  # Hiba esetén is leállítjuk a timer-t
                     messagebox.showerror("Hiba", f"Hiba történt a feldolgozás során: {e}")
 
             threading.Thread(target=process_pdf, daemon=True).start()
 
         except Exception as e:
+            stop_processing = True
             messagebox.showerror("Hiba", f"Hiba történt a feldolgozás során: {e}")
-
-    # Kezdeti GUI változók
-    stop_processing = False
-    timer_thread = None
 
     root = tk.Tk()
     root.title("PDF-ből Markdown átalakító")
@@ -105,7 +97,6 @@ def main():
     hardware_label = tk.Label(root, text="Hardvertámogatás ellenőrzése...", font=("Arial", 12))
     hardware_label.pack(pady=10)
     try:
-        import torch
         if torch.cuda.is_available():
             hardware_label.config(text="CUDA támogatott és használatban.", fg="green")
         else:
@@ -117,9 +108,8 @@ def main():
     version_label.pack(pady=10)
     try:
         import sys
-        python_version = sys.version.split()
+        python_version = sys.version.split()[0]
         version_text = f"Python verzió: {python_version}"
-        import torch
         version_text += f"\nPyTorch verzió: {torch.__version__}"
         if torch.cuda.is_available():
             version_text += f"\nCUDA verzió: {torch.version.cuda}"
@@ -151,6 +141,3 @@ def main():
     stop_button.pack(pady=10)
 
     root.mainloop()
-
-if __name__ == '__main__':
-    main()

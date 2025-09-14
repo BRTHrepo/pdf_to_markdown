@@ -26,6 +26,7 @@ def main():
                         timer_label.config(text=f"Feldolgozási idő: {elapsed_time:.2f} másodperc")
                         root.after(100, refresh_timer)
                     elif stop_processing:
+                        elapsed_time = time.time() - start_time
                         stop_timer_callback(elapsed_time)
                 refresh_timer()
             timer_thread = threading.Thread(target=update_timer, daemon=True)

@@ -4,7 +4,7 @@ import os
 import time
 import threading
 from work import hybrid_pdf_to_markdown_enhanced_multilingual
-import torch  # Feltételezem, hogy van ilyen importod
+import torch
 
 def main():
     stop_processing = False  # Jelző a feldolgozó és a timer szálnak

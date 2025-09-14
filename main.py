@@ -1,5 +1,9 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
+"""
+Author: BRTHPROG
+"""
+
 import os
 import time
 import threading

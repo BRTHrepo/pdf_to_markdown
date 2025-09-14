@@ -1,3 +1,7 @@
+"""
+Author: BRTHPROG
+"""
+
 import fitz
 import easyocr
 import numpy as np
